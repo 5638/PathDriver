@@ -8,9 +8,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.RobotMap;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.constants;
+import frc.robot.commands.AutoCom;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
@@ -27,7 +28,7 @@ public class LeftSwitch extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new AutoCom());
   }
 
   public static double l_, r_;
@@ -61,8 +62,8 @@ public class LeftSwitch extends Subsystem {
       EncoderFollower left = new EncoderFollower(modifier.getLeftTrajectory());
       EncoderFollower right = new EncoderFollower(modifier.getRightTrajectory());
 
-      left.configureEncoder(leftEnc, 4096, 0.1524);
-      left.configurePIDVA(constants.dtkP, 0.0, constants.dtkD, 1 / 2.67, 1);  // The first argument is the proportional gain. Usually this will be quite high
+      left.configureEncoder(leftEnc, 4096, 0.1524); //(encoder pos, encoder ticks per rev, whell dia in meters)
+      left.configurePIDVA(constants.dtkP, constants.dtkI, constants.dtkD, 1 / 2.67, 1);  // The first argument is the proportional gain. Usually this will be quite high
                                                                               // The second argument is the integral gain. This is unused for motion profiling
                                                                               // The third argument is the derivative gain. Tweak this if you are unhappy with the tracking of the trajectory
                                                                               // The fourth argument is the velocity ratio. This is 1 over the maximum velocity you provided in the 
@@ -70,7 +71,9 @@ public class LeftSwitch extends Subsystem {
                                                                               // The fifth argument is your acceleration gain. Tweak this if you want to get to a higher or lower speed quicker
 
       right.configureEncoder(rightEnc, 4096, 0.1524);
-      right.configurePIDVA(constants.dtkP, 0.0, constants.dtkD, 1 / 2.67, 1);
+      right.configurePIDVA(constants.dtkP, constants.dtkI, constants.dtkD, 1 / 2.67, 1);
+
+      double output = left.calculate(leftEnc);
 
       double l = left.calculate(leftEnc);
       double r = right.calculate(rightEnc);
@@ -85,8 +88,8 @@ public class LeftSwitch extends Subsystem {
       RobotMap.r1.set(r - turn);
       
 
-      r_ = r - turn;
-      l_ = l + turn;
+      RobotMap.r1.set(r - turn);
+      RobotMap.l1.set(l + turn);
 
       if(left.isFinished() && right.isFinished()){
         done = true;

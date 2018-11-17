@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -7,19 +9,17 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.kauailabs.navx.frc.AHRS;
-
-import frc.robot.subsystems.LeftSwitch;
-import frc.robot.subsystems.DriveTrain;
 import frc.robot.commands.AutoCom;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.LeftSwitch;
 
 
 public class Robot extends TimedRobot {
 	public static AHRS gyro;
 	
 	
-	public static DriveTrain DriveTrain = new DriveTrain();
-	public static LeftSwitch leftSwitch = new LeftSwitch();
+	public static DriveTrain DriveTrain;
+	public static LeftSwitch leftSwitch;
 	public static OI OI;
 
 	Command DriveCom;
@@ -31,6 +31,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		OI = new OI();
+		DriveTrain = new DriveTrain();
+		leftSwitch = new LeftSwitch();
 		
 		try {
 	          gyro = new AHRS(SPI.Port.kMXP); //Initialize NavX Gyro
@@ -98,4 +100,5 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testPeriodic() {
 	}
+
 }
