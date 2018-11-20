@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotInit() {
+		RobotMap.init();
 		OI = new OI();
 		DriveTrain = new DriveTrain();
 		leftSwitch = new LeftSwitch();

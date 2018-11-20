@@ -55,7 +55,7 @@ public class LeftSwitch extends Subsystem {
 
       Trajectory trajectory = Pathfinder.generate(leftSwitchWaypoint, config);
 
-      TankModifier modifier = new TankModifier(trajectory).modify(0.55245);
+      TankModifier modifier = new TankModifier(trajectory).modify(0.5334);
 
 
 
@@ -73,7 +73,6 @@ public class LeftSwitch extends Subsystem {
       right.configureEncoder(rightEnc, 4096, 0.1524);
       right.configurePIDVA(constants.dtkP, constants.dtkI, constants.dtkD, 1 / 2.67, 1);
 
-      double output = left.calculate(leftEnc);
 
       double l = left.calculate(leftEnc);
       double r = right.calculate(rightEnc);

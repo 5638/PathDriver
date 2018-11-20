@@ -97,10 +97,10 @@ public class RobotMap {
 
 		//gyro
 		gyro = Robot.gyro;
-		double a = gyro.getAngle();
 
 
 		//elevator
+		/*
 		WPI_TalonSRX el = new WPI_TalonSRX(5); 		//elevator talon
 		el.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		el.setSensorPhase(true);
@@ -115,20 +115,22 @@ public class RobotMap {
 		el.config_kD(0, constants.ekP, constants.t);
 		el.config_kF(0, constants.ekP, constants.t);
 
-
+*/
 
 
 		//intake
+
+		/*
 		WPI_VictorSPX in1 = new WPI_VictorSPX(6); 	//intake victor 1
 		WPI_VictorSPX in2 = new WPI_VictorSPX(7);	//intake victor 2
 
 		c = new DoubleSolenoid(0, 2, 3);
 
+*/
 
 
 
-
-
+/*
 		//dump
 		WPI_TalonSRX d = new WPI_TalonSRX(8);		//dump talon
 		d.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
@@ -142,4 +144,6 @@ public class RobotMap {
 		el.config_kD(0, constants.dkD, constants.t);
 		el.config_kF(0, constants.dkF, constants.t);
 	}
+	*/
+}
 }
