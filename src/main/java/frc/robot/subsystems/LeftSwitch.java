@@ -87,8 +87,6 @@ public class LeftSwitch extends Subsystem {
       RobotMap.r1.set(r - turn);
       
 
-      RobotMap.r1.set(r - turn);
-      RobotMap.l1.set(l + turn);
 
       if(left.isFinished() && right.isFinished()){
         done = true;
