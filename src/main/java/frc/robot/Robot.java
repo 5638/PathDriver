@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoCom;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.LeftSwitch;
+import frc.robot.subsystems.MotionProfileExample;
 
 
 public class Robot extends TimedRobot {
@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
 	
 	
 	public static DriveTrain DriveTrain;
-	public static LeftSwitch leftSwitch;
+	public static MotionProfileExample motionProfileExample;
 	public static OI OI;
 
 	Command DriveCom;
@@ -33,7 +33,7 @@ public class Robot extends TimedRobot {
 		RobotMap.init();
 		OI = new OI();
 		DriveTrain = new DriveTrain();
-		leftSwitch = new LeftSwitch();
+		motionProfileExample = new MotionProfileExample();
 		
 		try {
 	          gyro = new AHRS(SPI.Port.kMXP); //Initialize NavX Gyro
