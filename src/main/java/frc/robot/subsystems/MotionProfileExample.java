@@ -36,7 +36,7 @@ public class MotionProfileExample extends Subsystem {
     	setDefaultCommand(new AutoCom());
  	}
 
-	public void CalcProfile(){
+	public void DoProfile(){
 
 		double wheelbase_width = 0.54;
 
