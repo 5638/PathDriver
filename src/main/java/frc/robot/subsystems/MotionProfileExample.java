@@ -15,7 +15,7 @@ import frc.robot.commands.AutoCom;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.followers.EncoderFollower;
+import jaci.pathfinder.followers.*;
 import jaci.pathfinder.modifiers.TankModifier;
 
 
@@ -56,8 +56,8 @@ public class MotionProfileExample extends Subsystem {
 		modifier.modify(wheelbase_width);
 
 		// Do something with the new Trajectories...
-		EncoderFollower left = EncoderFollower(modifier.getLeftTrajectory());
-		EncoderFollower right = EncoderFollower(modifier.getRightTrajectory());
+		EncoderFollower left = new EncoderFollower(modifier.getLeftTrajectory());
+		EncoderFollower right = new EncoderFollower(modifier.getRightTrajectory());
 
 		left.configureEncoder(RobotMap.l1.getSelectedSensorPosition(0), 4096, 0.1524);
 		right.configureEncoder(RobotMap.r1.getSelectedSensorPosition(0), 4096, 0.1524);
@@ -80,11 +80,8 @@ public class MotionProfileExample extends Subsystem {
 		RobotMap.l1.set(ControlMode.PercentOutput, outputLeft);
 		RobotMap.r1.set(ControlMode.PercentOutput, outputRight);
 	}
-	
 
-	//private EncoderFollower EncoderFollower(Trajectory leftTrajectory) {
-	//	return null;
-	//}
+
 }
 
 
