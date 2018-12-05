@@ -41,8 +41,8 @@ public class DriveTrain extends Subsystem {
     driveTrain.arcadeDrive(throttle, steer);
     
     //gets left and right side velocity
-    SmartDashboard.putNumber("Left Motor", l1.getSelectedSensorVelocity(0));  
-    SmartDashboard.putNumber("Right Motor", r1.getSelectedSensorVelocity(0));
+   // SmartDashboard.putNumber("Left Motor", RobotMap.l1.getSelectedSensorVelocity(0));  
+   // SmartDashboard.putNumber("Right Motor", RobotMap.r1.getSelectedSensorVelocity(0));
   }
 
   public void stop() {

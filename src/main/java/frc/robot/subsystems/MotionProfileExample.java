@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -15,7 +15,7 @@ import frc.robot.commands.AutoCom;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.followers.*;
+import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 
 
@@ -29,6 +29,9 @@ import jaci.pathfinder.modifiers.TankModifier;
 
 
 public class MotionProfileExample extends Subsystem {
+
+	private final WPI_TalonSRX r1 = RobotMap.r1;
+  	private final WPI_TalonSRX l1 = RobotMap.l1;
 
 	@Override
   	public void initDefaultCommand() {
@@ -59,8 +62,8 @@ public class MotionProfileExample extends Subsystem {
 		EncoderFollower left = new EncoderFollower(modifier.getLeftTrajectory());
 		EncoderFollower right = new EncoderFollower(modifier.getRightTrajectory());
 
-		left.configureEncoder(RobotMap.l1.getSelectedSensorPosition(0), 4096, 0.1524);
-		right.configureEncoder(RobotMap.r1.getSelectedSensorPosition(0), 4096, 0.1524);
+		left.configureEncoder(0, 4096, 0.1524);
+		right.configureEncoder(0, 4096, 0.1524);
 
 		left.configurePIDVA(1, 0, 0, 1/2, 0);
 		right.configurePIDVA(1, 0, 0, 1/2, 0);
@@ -71,14 +74,15 @@ public class MotionProfileExample extends Subsystem {
 			System.out.printf(	
 				"%f,%f,%f,%f,%f,%f,%f,%f\n", 
         		seg.dt, seg.x, seg.y, seg.position, seg.velocity, 
-           		seg.acceleration, seg.jerk, seg.heading);
+				   seg.acceleration, seg.jerk, seg.heading);
+				   
+			
 		}
 
 		double outputLeft = left.calculate(RobotMap.l1.getSelectedSensorPosition(0));
 		double outputRight = right.calculate(RobotMap.r1.getSelectedSensorPosition(0));
 
-		RobotMap.l1.set(ControlMode.PercentOutput, outputLeft);
-		RobotMap.r1.set(ControlMode.PercentOutput, outputRight);
+		
 	}
 
 
