@@ -12,6 +12,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
@@ -20,6 +22,9 @@ import jaci.pathfinder.modifiers.TankModifier;
 
 public class FollowProfile extends Command {
 
+	private WPI_TalonSRX r1 = RobotMap.r1;
+  	private WPI_TalonSRX l1 = RobotMap.l1;
+
 	ScheduledExecutorService scheduler;
 	ScheduledFuture<?> motionFollower;
 	TankModifier modifier;
@@ -27,23 +32,25 @@ public class FollowProfile extends Command {
     public FollowProfile(TankModifier profile) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.DriveTrain);
+		requires(Robot.Sensors);
+		//setDefaultCommand(new Path1());
     	scheduler = Executors.newScheduledThreadPool(1);
     	modifier = profile;
-    }
+	}
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	
-    	Robot.DriveTrain.getLeftFollower().setTrajectory(modifier.getLeftTrajectory());
-    	Robot.DriveTrain.getRightFollower().setTrajectory(modifier.getRightTrajectory());
-    	
-    	Robot.DriveTrain.zeroEncoders();	
+    	Robot.Sensors.getLeftFollower().setTrajectory(modifier.getLeftTrajectory());
+		Robot.Sensors.getRightFollower().setTrajectory(modifier.getRightTrajectory());
+		
+    	Robot.Sensors.zeroEncoders();	
     	motionFollower = scheduler.scheduleAtFixedRate(new Runnable(){
     	            	public void run(){
-    	            		Robot.DriveTrain.setLeftMotorVelocity(Robot.DriveTrain.getLeftFollower().calculate(Robot.DriveTrain.getLeftEncoderCount()));
-    	            		Robot.DriveTrain.setRightMotorVelocity(
-    	            				Robot.DriveTrain.getRightFollower().calculate(Robot.DriveTrain.getRightEncoderCount()));
+    	            		Robot.Sensors.setLeftMotorVelocity(
+						Robot.Sensors.getLeftFollower().calculate(Robot.Sensors.getLeftEncoderCount()));
+    	            		Robot.Sensors.setRightMotorVelocity(
+    	            				Robot.Sensors.getRightFollower().calculate(Robot.Sensors.getRightEncoderCount()));
     	            		}
     	            }, 
     	            (int)(10), 
@@ -53,15 +60,15 @@ public class FollowProfile extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	SmartDashboard.putNumber("Left Profile Error", Robot.DriveTrain.getLeftEncoderCount() - Robot.DriveTrain.getLeftFollower().getSegment().position);
-    	SmartDashboard.putNumber("Right Profile Error", Robot.DriveTrain.getRightEncoderCount() - Robot.DriveTrain.getRightFollower().getSegment().position);
+	protected void execute() {
+    	SmartDashboard.putNumber("Left Profile Error", Robot.Sensors.getLeftEncoderCount() - Robot.Sensors.getLeftFollower().getSegment().position);
+    	SmartDashboard.putNumber("Right Profile Error", Robot.Sensors.getRightEncoderCount() - Robot.Sensors.getRightFollower().getSegment().position);
 
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.DriveTrain.getLeftFollower().isFinished() && Robot.DriveTrain.getRightFollower().isFinished();
+        return Robot.Sensors.getLeftFollower().isFinished() && Robot.Sensors.getRightFollower().isFinished();
     }
 
     // Called once after isFinished returns true
@@ -75,4 +82,6 @@ public class FollowProfile extends Command {
 		motionFollower.cancel(true);
 
     }
+
+	
 }
