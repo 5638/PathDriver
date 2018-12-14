@@ -51,7 +51,7 @@ public class RobotMap {
 
 	public static void init() {
 		//left side
-		WPI_TalonSRX l1 = new WPI_TalonSRX(2);		//left master
+		WPI_TalonSRX l1 = new WPI_TalonSRX(1);		//left master
 		l1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		l1.setSensorPhase(true);
 		l1.setSafetyEnabled(false);
@@ -66,14 +66,14 @@ public class RobotMap {
 		l1.config_kD(0, constants.dtkD, constants.t);
 		l1.config_kF(0, constants.dtkF, constants.t);
 
-		WPI_VictorSPX l2 = new WPI_VictorSPX(3); 	//left slave
+		WPI_VictorSPX l2 = new WPI_VictorSPX(2); 	//left slave
 		l2.follow(l1);
 
 		//group left
 		lg = new SpeedControllerGroup(l1, l2);
 
 		//right side
-		WPI_TalonSRX r1 = new WPI_TalonSRX(4); 		//right master
+		WPI_TalonSRX r1 = new WPI_TalonSRX(3); 		//right master
 		r1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		r1.setSensorPhase(true);
 		r1.setSafetyEnabled(false);
@@ -88,7 +88,7 @@ public class RobotMap {
 		r1.config_kD(0, constants.dtkD, constants.t);
 		r1.config_kF(0, constants.dtkF, constants.t);
 
-		WPI_VictorSPX r2 = new WPI_VictorSPX(5); 	//right slave
+		WPI_VictorSPX r2 = new WPI_VictorSPX(4); 	//right slave
 		r2.follow(r1);
 
 		//group right
