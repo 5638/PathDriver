@@ -1,10 +1,11 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import frc.robot.RobotMap;
 import frc.robot.commands.DriveCom;
-
+import jaci.pathfinder.followers.DistanceFollower;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PIDController;
@@ -25,11 +26,59 @@ public class DriveTrain extends Subsystem {
   boolean RotateToAngle = false;
   double currentRotationRate;
 
+  DistanceFollower leftDriveFollower;
+  DistanceFollower rightDriveFollower;
+
 
   @Override
   public void initDefaultCommand() {
     setDefaultCommand(new DriveCom());
   }
+
+
+
+
+
+
+  public DriveTrain() {
+    leftDriveFollower = new DistanceFollower();
+    rightDriveFollower = new DistanceFollower();
+  }
+
+  public DistanceFollower getLeftFollower(){
+    return this.leftDriveFollower;
+  }
+  public DistanceFollower getRightFollower(){
+    return this.rightDriveFollower;
+  }
+  public void zeroEncoders(){
+    this.l1.setSelectedSensorPosition(0, 0, 10);
+    this.r1.setSelectedSensorPosition(0, 0, 10);
+  }
+  public double getLeftEncoderCount(){
+    return this.l1.getSelectedSensorPosition(0);
+  }
+  public double getLeftEncoderVelocity(){
+    return this.l1.getSelectedSensorVelocity(0);
+  }
+  public double getRightEncoderCount(){
+    return this.r1.getSelectedSensorPosition(0);
+  }
+  public double getRightEncoderVelocity(){
+    return this.r1.getSelectedSensorVelocity(0);
+  }
+  public void setLeftMotorVelocity(double speed){
+    this.l1.set(ControlMode.PercentOutput, speed);
+  }
+  public void setRightMotorVelocity(double speed){
+    this.r1.set(ControlMode.PercentOutput, speed);
+  }
+
+
+
+
+
+
 
   public void drive(XboxController x0) {
     double steer = x0.getRawAxis(0);
