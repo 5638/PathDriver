@@ -42,10 +42,11 @@ public class DriveTrain extends Subsystem {
     double throttle = a - b;
 
     driveTrain.arcadeDrive(throttle, steer);
-    
+    System.out.println("Drive is GO");
     //gets left and right side velocity
     SmartDashboard.putNumber("Left Motor", l1.getSelectedSensorVelocity(0));  
     SmartDashboard.putNumber("Right Motor", r1.getSelectedSensorVelocity(0));
+    System.out.println("Sensors are GO");
   }
 
   public void stop() {
