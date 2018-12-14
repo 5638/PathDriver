@@ -17,7 +17,6 @@ import frc.robot.subsystems.MotionProfileExample;
 public class Robot extends TimedRobot {
 	public static AHRS gyro;
 	
-	
 	public static DriveTrain DriveTrain;
 	public static MotionProfileExample motionProfileExample;
 	public static OI OI;

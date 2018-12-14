@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.AutoCom;
 import jaci.pathfinder.Pathfinder;
@@ -31,7 +32,10 @@ import jaci.pathfinder.modifiers.TankModifier;
 public class MotionProfileExample extends Subsystem {
 
 	private final WPI_TalonSRX r1 = RobotMap.r1;
-  	private final WPI_TalonSRX l1 = RobotMap.l1;
+	private final WPI_TalonSRX l1 = RobotMap.l1;
+	  
+	public double outputLeft;
+	public double outputRight;
 
 	@Override
   	public void initDefaultCommand() {
@@ -62,8 +66,8 @@ public class MotionProfileExample extends Subsystem {
 		EncoderFollower left = new EncoderFollower(modifier.getLeftTrajectory());
 		EncoderFollower right = new EncoderFollower(modifier.getRightTrajectory());
 
-		left.configureEncoder(0, 4096, 0.1524);
-		right.configureEncoder(0, 4096, 0.1524);
+		left.configureEncoder(Math.round(l1.getSelectedSensorPosition(0)), 4096, 0.1524);
+		right.configureEncoder(Math.round(r1.getSelectedSensorPosition(0)), 4096, 0.1524);
 
 		left.configurePIDVA(1, 0, 0, 1/2, 0);
 		right.configurePIDVA(1, 0, 0, 1/2, 0);
@@ -79,10 +83,9 @@ public class MotionProfileExample extends Subsystem {
 			
 		}
 
-		double outputLeft = left.calculate(RobotMap.l1.getSelectedSensorPosition(0));
-		double outputRight = right.calculate(RobotMap.r1.getSelectedSensorPosition(0));
+		outputLeft = left.calculate((int) Math.round(l1.getSelectedSensorPosition(0)));
+		outputRight = right.calculate((int) Math.round(r1.getSelectedSensorPosition(0)));
 
-		
 	}
 
 
