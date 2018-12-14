@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.AutoCom;
+import frc.robot.commands.FollowProfile;
+import frc.robot.commands.Path1;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.MotionProfileExample;
 
 
 public class Robot extends TimedRobot {
@@ -19,11 +19,11 @@ public class Robot extends TimedRobot {
 	
 	
 	public static DriveTrain DriveTrain;
-	public static MotionProfileExample motionProfileExample;
 	public static OI OI;
 
 	Command DriveCom;
-	Command AutoCom;
+	Command FollowProfile;
+	Command Path1;
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<Command>();
 
@@ -33,7 +33,6 @@ public class Robot extends TimedRobot {
 		RobotMap.init();
 		OI = new OI();
 		DriveTrain = new DriveTrain();
-		motionProfileExample = new MotionProfileExample();
 		
 		try {
 	          gyro = new AHRS(SPI.Port.kMXP); //Initialize NavX Gyro
@@ -41,7 +40,7 @@ public class Robot extends TimedRobot {
 	          DriverStation.reportError("Error instantiating the gyro:  " + ex.getMessage(), true);
 	    }
 		
-		m_chooser.addDefault("Default Auto", new AutoCom());
+		m_chooser.addDefault("Default Auto", new Path1());
 		SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
