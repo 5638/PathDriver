@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -79,10 +80,11 @@ public class MotionProfileExample extends Subsystem {
 			
 		}
 
-		double outputLeft = left.calculate(RobotMap.l1.getSelectedSensorPosition(0));
-		double outputRight = right.calculate(RobotMap.r1.getSelectedSensorPosition(0));
+		double outputLeft = left.calculate(l1.getSelectedSensorPosition(0));
+		double outputRight = right.calculate(r1.getSelectedSensorPosition(0));
 
-		
+		l1.set(ControlMode.Velocity, left.getSegment().velocity);
+		r1.set(ControlMode.Velocity, right.getSegment().velocity);
 	}
 
 

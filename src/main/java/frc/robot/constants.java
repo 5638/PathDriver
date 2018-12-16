@@ -8,7 +8,7 @@ public class constants{
     public static final double kToleranceDegrees = 2.0f; 
 
     //drivetrain pidf
-    public static final double dtkP = 0;
+    public static final double dtkP = 0.9;
     public static final double dtkI = 0;
     public static final double dtkD = 0;
     public static final double dtkF = 0;

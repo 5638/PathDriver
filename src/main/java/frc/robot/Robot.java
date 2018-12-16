@@ -31,9 +31,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		RobotMap.init();
-		OI = new OI();
 		DriveTrain = new DriveTrain();
 		motionProfileExample = new MotionProfileExample();
+		OI = new OI();
 		
 		try {
 	          gyro = new AHRS(SPI.Port.kMXP); //Initialize NavX Gyro

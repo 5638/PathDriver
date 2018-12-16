@@ -9,7 +9,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.MotionProfileExample;
 
 public class AutoCom extends Command {
   public AutoCom() {

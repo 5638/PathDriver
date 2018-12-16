@@ -9,10 +9,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
-import frc.robot.constants;
-
-import frc.robot.Robot;
-
 public class RobotMap {
 
 	//drive
@@ -44,14 +40,11 @@ public class RobotMap {
 
 	//dump
 	public static WPI_TalonSRX d;
-
-	public int rpos;
-	public int lpos;
 	
 
 	public static void init() {
 		//left side
-		WPI_TalonSRX l1 = new WPI_TalonSRX(2);		//left master
+		WPI_TalonSRX l1 = new WPI_TalonSRX(1);		//left master
 		l1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		l1.setSensorPhase(true);
 		l1.setSafetyEnabled(false);
@@ -66,14 +59,14 @@ public class RobotMap {
 		l1.config_kD(0, constants.dtkD, constants.t);
 		l1.config_kF(0, constants.dtkF, constants.t);
 
-		WPI_VictorSPX l2 = new WPI_VictorSPX(3); 	//left slave
+		WPI_VictorSPX l2 = new WPI_VictorSPX(2); 	//left slave
 		l2.follow(l1);
 
 		//group left
 		lg = new SpeedControllerGroup(l1, l2);
 
 		//right side
-		WPI_TalonSRX r1 = new WPI_TalonSRX(4); 		//right master
+		WPI_TalonSRX r1 = new WPI_TalonSRX(3); 		//right master
 		r1.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		r1.setSensorPhase(true);
 		r1.setSafetyEnabled(false);
@@ -88,7 +81,7 @@ public class RobotMap {
 		r1.config_kD(0, constants.dtkD, constants.t);
 		r1.config_kF(0, constants.dtkF, constants.t);
 
-		WPI_VictorSPX r2 = new WPI_VictorSPX(5); 	//right slave
+		WPI_VictorSPX r2 = new WPI_VictorSPX(4); 	//right slave
 		r2.follow(r1);
 
 		//group right
@@ -100,10 +93,10 @@ public class RobotMap {
 
 		//gyro
 		gyro = Robot.gyro;
+		double a = gyro.getAngle();
 
 
 		//elevator
-		/*
 		WPI_TalonSRX el = new WPI_TalonSRX(5); 		//elevator talon
 		el.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
 		el.setSensorPhase(true);
@@ -118,22 +111,20 @@ public class RobotMap {
 		el.config_kD(0, constants.ekP, constants.t);
 		el.config_kF(0, constants.ekP, constants.t);
 
-*/
+
 
 
 		//intake
-
-		/*
 		WPI_VictorSPX in1 = new WPI_VictorSPX(6); 	//intake victor 1
 		WPI_VictorSPX in2 = new WPI_VictorSPX(7);	//intake victor 2
 
 		c = new DoubleSolenoid(0, 2, 3);
 
-*/
 
 
 
-/*
+
+
 		//dump
 		WPI_TalonSRX d = new WPI_TalonSRX(8);		//dump talon
 		d.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 10);
@@ -147,6 +138,4 @@ public class RobotMap {
 		el.config_kD(0, constants.dkD, constants.t);
 		el.config_kF(0, constants.dkF, constants.t);
 	}
-	*/
-}
 }

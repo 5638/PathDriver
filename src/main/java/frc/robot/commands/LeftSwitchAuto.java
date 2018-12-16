@@ -8,6 +8,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.RobotMap;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.modifiers.TankModifier;
+import jaci.pathfinder.*;
+import jaci.pathfinder.followers.*;
+import jaci.pathfinder.modifiers.*;
 
 public class LeftSwitchAuto extends CommandGroup {
   /**
@@ -30,5 +38,17 @@ public class LeftSwitchAuto extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
+
+    Waypoint[] points =  new Waypoint[] {
+      new Waypoint(0, 0, 0),
+      new Waypoint(104.5, 16.35, Pathfinder.d2r(60))
+      };
+        Config config = new Config(
+      Trajectory.FitMethod.HERMITE_CUBIC,
+      Trajectory.Config.SAMPLES_HIGH, RobotMap.PROFILE_DT, 30.0, 20.0, 240.0);
+        TankModifier profile = new TankModifier(Pathfinder.generate(points, config)).modify(28);
+        
+        addSequential(new FollowProfile(profile));
+        
   }
 }
