@@ -12,10 +12,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import frc.robot.Robot;
-import frc.robot.RobotMap;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import jaci.pathfinder.modifiers.TankModifier;
 
@@ -27,7 +28,9 @@ public class FollowProfile extends Command {
 	ScheduledExecutorService scheduler;
 	ScheduledFuture<?> motionFollower;
 	TankModifier modifier;
-	
+
+
+	public FollowProfile(TankModifier profile){
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
 		requires(Robot.Sensors);
