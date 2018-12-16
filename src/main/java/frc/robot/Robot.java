@@ -9,21 +9,20 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.AutoCom;
+import frc.robot.commands.Path1;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.MotionProfileExample;
-
+import frc.robot.subsystems.Sensors;
 
 public class Robot extends TimedRobot {
 	public static AHRS gyro;
-	
-	
 	public static DriveTrain DriveTrain;
-	public static MotionProfileExample motionProfileExample;
+	public static Sensors Sensors;
 	public static OI OI;
 
+
 	Command DriveCom;
-	Command AutoCom;
+	Command FollowProfile;
+	Command Path1;
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<Command>();
 
@@ -31,18 +30,21 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		RobotMap.init();
+		Sensors = new Sensors();
 		DriveTrain = new DriveTrain();
-		motionProfileExample = new MotionProfileExample();
 		OI = new OI();
-		
+
+
 		try {
 	          gyro = new AHRS(SPI.Port.kMXP); //Initialize NavX Gyro
 	      } catch (RuntimeException ex) {
 	          DriverStation.reportError("Error instantiating the gyro:  " + ex.getMessage(), true);
 	    }
 		
-		m_chooser.addDefault("Default Auto", new AutoCom());
+		m_chooser.addDefault("Default Auto", new Path1());
 		SmartDashboard.putData("Auto mode", m_chooser);
+
+		System.out.println("robotInit done.");
 	}
 
 	@Override

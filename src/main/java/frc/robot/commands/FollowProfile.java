@@ -7,8 +7,6 @@
 
 package frc.robot.commands;
 
-import jaci.pathfinder.modifiers.TankModifier;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -18,66 +16,62 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.RobotMap;
+import jaci.pathfinder.modifiers.TankModifier;
 
-/**
- *
- */
 public class FollowProfile extends Command {
+
+	private WPI_TalonSRX r1 = RobotMap.r1;
+  	private WPI_TalonSRX l1 = RobotMap.l1;
 
 	ScheduledExecutorService scheduler;
 	ScheduledFuture<?> motionFollower;
 	TankModifier modifier;
 	
-    public FollowProfile(TankModifier profile) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.DriveTrain);
+		requires(Robot.Sensors);
+		//setDefaultCommand(new Path1());
     	scheduler = Executors.newScheduledThreadPool(1);
     	modifier = profile;
-    }
+	}
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	
-    	Robot.chassis.getLeftFollower().setTrajectory(modifier.getLeftTrajectory());
-    	Robot.chassis.getRightFollower().setTrajectory(modifier.getRightTrajectory());
-    	
-    	Robot.chassis.setBothToLow();
-    	Robot.chassis.zeroEncoders();	
+    	Robot.Sensors.getLeftFollower().setTrajectory(modifier.getLeftTrajectory());
+		Robot.Sensors.getRightFollower().setTrajectory(modifier.getRightTrajectory());
+		
+    	Robot.Sensors.zeroEncoders();	
     	motionFollower = scheduler.scheduleAtFixedRate(new Runnable(){
     	            	public void run(){
-    	            		Robot.chassis.setLeftMotorVelocity(
-    	            				Robot.chassis.getLeftFollower().calculate(
-    	            						Robot.chassis.convertVelocityTicksToInchesPerSecond(Robot.chassis.getLeftEncoderCount())/10.0));
-    	            		Robot.chassis.setRightMotorVelocity(
-    	            				Robot.chassis.getRightFollower().calculate(
-    	            						Robot.chassis.convertVelocityTicksToInchesPerSecond(Robot.chassis.getRightEncoderCount())/10.0));
+    	            		Robot.Sensors.setLeftMotorVelocity(
+						Robot.Sensors.getLeftFollower().calculate(Robot.Sensors.getLeftEncoderCount()));
+    	            		Robot.Sensors.setRightMotorVelocity(
+    	            				Robot.Sensors.getRightFollower().calculate(Robot.Sensors.getRightEncoderCount()));
     	            		}
     	            }, 
-    	            (int)(RobotMap.PROFILE_DT * 1000), 
-    	            (int)(RobotMap.PROFILE_DT * 1000), 
+    	            (int)(10), 
+    	            (int)(10), 
     	            TimeUnit.MILLISECONDS);   
 
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	SmartDashboard.putNumber("Left Profile Error", Robot.chassis.convertVelocityTicksToInchesPerSecond(Robot.chassis.getLeftEncoderCount())/10.0 - Robot.chassis.getLeftFollower().getSegment().position);
-    	SmartDashboard.putNumber("Right Profile Error", Robot.chassis.convertVelocityTicksToInchesPerSecond(Robot.chassis.getRightEncoderCount())/10.0 - Robot.chassis.getRightFollower().getSegment().position);
+	protected void execute() {
+    	SmartDashboard.putNumber("Left Profile Error", Robot.Sensors.getLeftEncoderCount() - Robot.Sensors.getLeftFollower().getSegment().position);
+    	SmartDashboard.putNumber("Right Profile Error", Robot.Sensors.getRightEncoderCount() - Robot.Sensors.getRightFollower().getSegment().position);
 
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.chassis.getLeftFollower().isFinished() && Robot.chassis.getRightFollower().isFinished();
+        return Robot.Sensors.getLeftFollower().isFinished() && Robot.Sensors.getRightFollower().isFinished();
     }
 
     // Called once after isFinished returns true
     protected void end() {
 		motionFollower.cancel(true);
-    	System.out.println("Left Profile Error = " + Double.toString(Robot.chassis.convertVelocityTicksToInchesPerSecond(Robot.chassis.getLeftEncoderCount())/10.0 - Robot.chassis.getLeftFollower().getSegment().position));
-    	System.out.println("Right Profile Error = " + Double.toString(Robot.chassis.convertVelocityTicksToInchesPerSecond(Robot.chassis.getRightEncoderCount())/10.0 - Robot.chassis.getRightFollower().getSegment().position));
     }
 
     // Called when another command which requires one or more of the same
@@ -86,4 +80,6 @@ public class FollowProfile extends Command {
 		motionFollower.cancel(true);
 
     }
+
+	
 }
